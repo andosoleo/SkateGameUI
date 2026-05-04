@@ -1,0 +1,267 @@
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.25rem;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  min-height: 44px;
+  border: 0;
+  border-radius: 8px;
+  padding: 0 18px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.primary {
+  color: #fffdf8;
+  background: #181512;
+}
+
+.secondary {
+  color: #181512;
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid rgba(24, 21, 18, 0.22);
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.error {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  color: #741d1d;
+  background: #ffe1df;
+  font-weight: 700;
+}
+
+.setup-panel,
+.game-step-panel,
+.history {
+  margin-top: 24px;
+  padding: 22px;
+  border: 1px solid rgba(24, 21, 18, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 24px 60px rgba(40, 30, 20, 0.14);
+  backdrop-filter: blur(14px);
+}
+
+form,
+.game-step-panel {
+  display: grid;
+  gap: 18px;
+}
+
+label {
+  display: grid;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+input[type="text"],
+select {
+  width: 100%;
+  min-height: 46px;
+  box-sizing: border-box;
+  border: 1px solid rgba(24, 21, 18, 0.24);
+  border-radius: 8px;
+  padding: 0 12px;
+  color: #181512;
+  background: #fffefb;
+}
+
+.section-label {
+  margin: 0 0 8px;
+  color: #6f5536;
+  font-size: 0.84rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toggle-row input {
+  width: 20px;
+  height: 20px;
+  accent-color: #181512;
+}
+
+.game-board {
+  margin-top: 24px;
+}
+
+.game-strip {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.game-strip span {
+  padding: 7px 10px;
+  border-radius: 8px;
+  color: #fffdf8;
+  background: rgba(24, 21, 18, 0.86);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.scoreboard {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.player-score {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid rgba(24, 21, 18, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.player-score.active {
+  border-color: #181512;
+  box-shadow: inset 0 0 0 2px #181512;
+}
+
+.player-heading,
+.panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.player-heading > span {
+  font-weight: 900;
+}
+
+.player-heading small {
+  padding: 5px 8px;
+  border-radius: 8px;
+  color: #fffdf8;
+  background: #6f5536;
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.letters {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.letters span {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  color: #fffdf8;
+  background: #181512;
+  font-weight: 900;
+}
+
+.letters .empty {
+  color: rgba(24, 21, 18, 0.35);
+  background: rgba(24, 21, 18, 0.08);
+}
+
+.complete {
+  border-color: #181512;
+}
+
+.round-summary {
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.8);
+  font-weight: 800;
+}
+
+.empty-state {
+  color: #6f5536;
+  font-weight: 700;
+}
+
+.used-tricks {
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.used-tricks div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.used-tricks span {
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: #181512;
+  background: rgba(24, 21, 18, 0.08);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.history ol {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.history li {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba(24, 21, 18, 0.06);
+}
+
+@media (max-width: 760px) {
+  .scoreboard {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+}

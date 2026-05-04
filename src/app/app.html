@@ -1,0 +1,16 @@
+<main class="skate-app">
+  @switch (currentView()) {
+    @case ('landing') {
+      <app-landing-page
+        (startNewGame)="startNewGame()"
+        (continueGame)="continueGame()">
+      </app-landing-page>
+    }
+    @case ('inGame') {
+      <app-in-game (backToLanding)="showLanding()"></app-in-game>
+    }
+    @case ('continueGame') {
+      <app-continue-game (backToLanding)="showLanding()"></app-continue-game>
+    }
+  }
+</main>

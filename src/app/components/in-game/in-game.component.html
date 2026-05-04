@@ -1,0 +1,134 @@
+<p class="error" *ngIf="error()">{{ error() }}</p>
+
+<section class="setup-panel" *ngIf="phase() === 'setup'">
+  <div class="panel-heading">
+    <h1>New Game</h1>
+    <button type="button" class="secondary" (click)="exitGame()">Back</button>
+  </div>
+
+  <form (ngSubmit)="createGame()">
+    <label>
+      Player 1
+      <input name="playerOneName" type="text" [(ngModel)]="playerOneName" autocomplete="off">
+    </label>
+
+    <label>
+      Player 2
+      <input name="playerTwoName" type="text" [(ngModel)]="playerTwoName" autocomplete="off">
+    </label>
+
+    <div class="form-actions">
+      <button type="submit" class="primary" [disabled]="isBusy()">Start Game</button>
+    </div>
+  </form>
+</section>
+
+<section class="game-board" *ngIf="game() as currentGame">
+  <div class="game-strip">
+    <span>Game #{{ currentGame.id }}</span>
+    <span>Round {{ roundNumber() }}</span>
+    <span>{{ currentGame.status }}</span>
+  </div>
+
+  <div class="scoreboard">
+    <div class="player-score" [class.active]="currentGame.currentOffensivePlayerNumber === 1">
+      <div class="player-heading">
+        <span>{{ currentGame.playerOneName }}</span>
+        <small *ngIf="currentGame.currentOffensivePlayerNumber === 1">Offense</small>
+      </div>
+      <div class="letters">
+        <span *ngFor="let letter of getLetterSlots(1)" [class.empty]="!letter">{{ letter || '-' }}</span>
+      </div>
+    </div>
+
+    <div class="player-score" [class.active]="currentGame.currentOffensivePlayerNumber === 2">
+      <div class="player-heading">
+        <span>{{ currentGame.playerTwoName }}</span>
+        <small *ngIf="currentGame.currentOffensivePlayerNumber === 2">Offense</small>
+      </div>
+      <div class="letters">
+        <span *ngFor="let letter of getLetterSlots(2)" [class.empty]="!letter">{{ letter || '-' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="round-summary" *ngIf="lastRoundSummary()">{{ lastRoundSummary() }}</p>
+
+  <div class="game-step-panel" *ngIf="phase() === 'offense'">
+    <div class="panel-heading">
+      <div>
+        <p class="section-label">Set the trick</p>
+        <h2>{{ currentOffensivePlayer() }} is on offense</h2>
+      </div>
+    </div>
+
+    <label>
+      Trick
+      <select [(ngModel)]="selectedTrickId" name="selectedTrickId">
+        <option *ngFor="let trick of availableTricks()" [ngValue]="trick.id">{{ trick.name }}</option>
+      </select>
+    </label>
+
+    <label class="toggle-row">
+      <input type="checkbox" [(ngModel)]="wasSetSuccessfully" name="wasSetSuccessfully">
+      {{ currentOffensivePlayer() }} set {{ selectedTrickName() || 'the trick' }} successfully
+    </label>
+
+    <button type="button" class="primary" (click)="submitOffense()" [disabled]="isBusy() || !availableTricks().length">
+      Submit Offensive Attempt
+    </button>
+
+    <p class="empty-state" *ngIf="!availableTricks().length">All tricks have been successfully set in this game.</p>
+  </div>
+
+  <div class="game-step-panel" *ngIf="phase() === 'defense'">
+    <div class="panel-heading">
+      <div>
+        <p class="section-label">Match the trick</p>
+        <h2>{{ currentDefensivePlayer() }} is on defense</h2>
+      </div>
+    </div>
+
+    <p>{{ currentOffensivePlayer() }} set {{ pendingTrick?.name }}. {{ currentDefensivePlayer() }} needs to match it.</p>
+
+    <label class="toggle-row">
+      <input type="checkbox" [(ngModel)]="wasDefendedSuccessfully" name="wasDefendedSuccessfully">
+      {{ currentDefensivePlayer() }} matched the trick
+    </label>
+
+    <div class="form-actions">
+      <button type="button" class="secondary" (click)="cancelDefense()">Back</button>
+      <button type="button" class="primary" (click)="submitDefense()" [disabled]="isBusy()">Submit Defense</button>
+    </div>
+  </div>
+
+  <div class="game-step-panel complete" *ngIf="phase() === 'complete'">
+    <h2>{{ getGameOverTitle(currentGame) }}</h2>
+    <p>{{ getGameOverDetail(currentGame) }}</p>
+    <div class="form-actions">
+      <button type="button" class="primary" (click)="startOver()">Start Another Game</button>
+      <button type="button" class="secondary" (click)="exitGame()">Back to Landing</button>
+    </div>
+  </div>
+
+  <section class="used-tricks" *ngIf="currentGame.usedTricks.length">
+    <h2>Used Tricks</h2>
+    <div>
+      <span *ngFor="let trick of currentGame.usedTricks">{{ trick.name }}</span>
+    </div>
+  </section>
+
+  <section class="history" *ngIf="currentGame.rounds.length">
+    <h2>Round History</h2>
+    <ol>
+      <li *ngFor="let round of currentGame.rounds; trackBy: trackByRoundId">
+        <span>Round {{ round.roundNumber }}</span>
+        <strong>{{ getPlayerName(round.offensivePlayerNumber) }}</strong>
+        <span>{{ round.wasSetSuccessfully ? 'set' : 'missed' }}</span>
+        <strong>{{ round.trickName }}</strong>
+        <span *ngIf="round.wasSetSuccessfully && round.wasDefendedSuccessfully">and {{ getPlayerName(round.defensivePlayerNumber) }} matched it.</span>
+        <span *ngIf="round.wasSetSuccessfully && round.wasDefendedSuccessfully === false">and {{ getPlayerName(round.defensivePlayerNumber) }} took a letter.</span>
+      </li>
+    </ol>
+  </section>
+</section>
